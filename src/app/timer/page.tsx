@@ -4,10 +4,11 @@ import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 import { useAppStore } from "@/lib/stores/app";
 import { useTimerStore } from "@/lib/stores/timer";
+import type { ProjectWithClient, TimeEntryWithDetails } from "@/types";
 
 export default function TimerPage() {
   const { data: session } = useSession();
-  const { viewMode, currentOrganisation } = useAppStore();
+  const { currentOrganisation } = useAppStore();
   const {
     isRunning,
     description,
@@ -22,8 +23,8 @@ export default function TimerPage() {
     tick,
   } = useTimerStore();
 
-  const [projects, setProjects] = useState<any[]>([]);
-  const [timeEntries, setTimeEntries] = useState<any[]>([]);
+  const [projects, setProjects] = useState<ProjectWithClient[]>([]);
+  const [timeEntries, setTimeEntries] = useState<TimeEntryWithDetails[]>([]);
   const [selectedProjectId, setSelectedProjectId] = useState(projectId || "");
 
   const fetchProjects = useCallback(async () => {
@@ -157,7 +158,10 @@ export default function TimerPage() {
             Please sign in to use the timer
           </h1>
           <button
-            onClick={() => (window.location.href = "/api/auth/signin")}
+            type="button"
+            onClick={() => {
+              window.location.href = "/api/auth/signin";
+            }}
             className="btn btn-primary"
           >
             Sign In
@@ -212,6 +216,7 @@ export default function TimerPage() {
 
             <div className="card-actions justify-center gap-4">
               <button
+                type="button"
                 className={`btn btn-lg ${isRunning ? "btn-error" : "btn-primary"}`}
                 onClick={handleStartStop}
                 disabled={!description || (!isRunning && !selectedProjectId)}
@@ -220,6 +225,7 @@ export default function TimerPage() {
               </button>
 
               <button
+                type="button"
                 className="btn btn-lg btn-outline"
                 onClick={handleReset}
                 disabled={elapsedSeconds === 0 && !isRunning}

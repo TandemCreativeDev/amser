@@ -111,3 +111,13 @@ export interface UserSession extends User {
   currentOrganisation?: Organisation;
   viewMode: ViewMode;
 }
+
+// Populated types for frontend use
+export interface ProjectWithClient extends Project {
+  clientId: Client;
+}
+
+export interface TimeEntryWithDetails extends TimeEntry {
+  projectId: Project;
+  clientId: Client;
+}

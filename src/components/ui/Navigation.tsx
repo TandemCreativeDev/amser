@@ -40,6 +40,7 @@ export default function Navigation() {
               viewBox="0 0 24 24"
               aria-label="Menu"
             >
+              <title>Menu</title>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -98,6 +99,7 @@ export default function Navigation() {
                   viewBox="0 0 24 24"
                   aria-label="Dropdown arrow"
                 >
+                  <title>Dropdown arrow</title>
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"

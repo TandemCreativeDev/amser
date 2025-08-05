@@ -36,7 +36,7 @@ export default function OrganisationPage() {
                 <button type="button">TechStart Ltd</button>
               </li>
               <li className="menu-title">
-                <button className="btn btn-ghost btn-sm w-full">
+                <button type="button" className="btn btn-ghost btn-sm w-full">
                   + Create Organisation
                 </button>
               </li>
@@ -54,6 +54,7 @@ export default function OrganisationPage() {
           className="stroke-current shrink-0 w-6 h-6"
           aria-label="Information icon"
         >
+          <title>Information icon</title>
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -410,10 +411,11 @@ export default function OrganisationPage() {
               <h2 className="card-title">Organisation Settings</h2>
 
               <div className="form-control">
-                <label className="label">
+                <label className="label" htmlFor="org-name">
                   <span className="label-text">Organisation Name</span>
                 </label>
                 <input
+                  id="org-name"
                   type="text"
                   className="input input-bordered"
                   defaultValue="Acme Corp"
@@ -421,12 +423,13 @@ export default function OrganisationPage() {
               </div>
 
               <div className="form-control">
-                <label className="label">
+                <label className="label" htmlFor="default-rate">
                   <span className="label-text">Default Rate</span>
                 </label>
                 <div className="input-group">
                   <span>£</span>
                   <input
+                    id="default-rate"
                     type="number"
                     className="input input-bordered flex-1"
                     defaultValue="75"
@@ -436,7 +439,7 @@ export default function OrganisationPage() {
               </div>
 
               <div className="form-control">
-                <label className="label">
+                <label className="label" htmlFor="categories-input">
                   <span className="label-text">Project Categories</span>
                 </label>
                 <div className="flex flex-wrap gap-2 mb-2">
@@ -446,6 +449,7 @@ export default function OrganisationPage() {
                   <span className="badge">Consulting</span>
                 </div>
                 <input
+                  id="categories-input"
                   type="text"
                   placeholder="Add new category"
                   className="input input-bordered"

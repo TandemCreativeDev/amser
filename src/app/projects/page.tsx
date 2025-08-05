@@ -3,17 +3,18 @@
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 import { useAppStore } from "@/lib/stores/app";
+import type { Client, ProjectWithClient } from "@/types";
 
 export default function ProjectsPage() {
   const { data: session } = useSession();
   const { viewMode, currentOrganisation } = useAppStore();
 
-  const [clients, setClients] = useState<any[]>([]);
-  const [projects, setProjects] = useState<any[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
+  const [projects, setProjects] = useState<ProjectWithClient[]>([]);
   const [_view, _setView] = useState("projects");
   const [showClientModal, setShowClientModal] = useState(false);
   const [showProjectModal, setShowProjectModal] = useState(false);
-  const [_selectedClient, _setSelectedClient] = useState<any>(null);
+  const [_selectedClient, _setSelectedClient] = useState<Client | null>(null);
   const [newClient, setNewClient] = useState({ name: "", colour: "#3B82F6" });
   const [newProject, setNewProject] = useState({
     name: "",
@@ -114,7 +115,10 @@ export default function ProjectsPage() {
             Please sign in to manage projects
           </h1>
           <button
-            onClick={() => (window.location.href = "/api/auth/signin")}
+            type="button"
+            onClick={() => {
+              window.location.href = "/api/auth/signin";
+            }}
             className="btn btn-primary"
           >
             Sign In
@@ -139,15 +143,19 @@ export default function ProjectsPage() {
           </div>
 
           <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="btn btn-primary">
+            <button type="button" className="btn btn-primary">
               Create New
-            </div>
+            </button>
             <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-48 p-2 shadow">
               <li>
-                <a onClick={() => setShowProjectModal(true)}>New Project</a>
+                <button type="button" onClick={() => setShowProjectModal(true)}>
+                  New Project
+                </button>
               </li>
               <li>
-                <a onClick={() => setShowClientModal(true)}>New Client</a>
+                <button type="button" onClick={() => setShowClientModal(true)}>
+                  New Client
+                </button>
               </li>
             </ul>
           </div>
@@ -156,6 +164,7 @@ export default function ProjectsPage() {
 
       <div className="flex gap-4 mb-6">
         <button
+          type="button"
           className="btn btn-primary"
           onClick={() => setShowClientModal(true)}
         >
@@ -163,6 +172,7 @@ export default function ProjectsPage() {
           Add Client
         </button>
         <button
+          type="button"
           className="btn btn-outline"
           onClick={() => setShowProjectModal(true)}
           disabled={clients.length === 0}
@@ -182,6 +192,7 @@ export default function ProjectsPage() {
                 <div className="text-center py-8 text-base-content/70">
                   <p>No clients yet</p>
                   <button
+                    type="button"
                     className="btn btn-sm btn-primary mt-2"
                     onClick={() => setShowClientModal(true)}
                   >
@@ -225,6 +236,7 @@ export default function ProjectsPage() {
                   <p>No projects yet</p>
                   {clients.length > 0 && (
                     <button
+                      type="button"
                       className="btn btn-sm btn-primary mt-2"
                       onClick={() => setShowProjectModal(true)}
                     >
@@ -269,10 +281,11 @@ export default function ProjectsPage() {
             <h3 className="font-bold text-lg">Add New Client</h3>
             <form onSubmit={handleCreateClient} className="py-4">
               <div className="form-control mb-4">
-                <label className="label">
+                <label className="label" htmlFor="client-name">
                   <span className="label-text">Client Name</span>
                 </label>
                 <input
+                  id="client-name"
                   type="text"
                   className="input input-bordered w-full"
                   value={newClient.name}
@@ -284,10 +297,11 @@ export default function ProjectsPage() {
               </div>
 
               <div className="form-control mb-4">
-                <label className="label">
+                <label className="label" htmlFor="client-colour">
                   <span className="label-text">Colour</span>
                 </label>
                 <input
+                  id="client-colour"
                   type="color"
                   className="input input-bordered w-full h-12"
                   value={newClient.colour}
@@ -321,10 +335,11 @@ export default function ProjectsPage() {
             <h3 className="font-bold text-lg">Add New Project</h3>
             <form onSubmit={handleCreateProject} className="py-4">
               <div className="form-control mb-4">
-                <label className="label">
+                <label className="label" htmlFor="project-name">
                   <span className="label-text">Project Name</span>
                 </label>
                 <input
+                  id="project-name"
                   type="text"
                   className="input input-bordered w-full"
                   value={newProject.name}
@@ -336,10 +351,11 @@ export default function ProjectsPage() {
               </div>
 
               <div className="form-control mb-4">
-                <label className="label">
+                <label className="label" htmlFor="project-client">
                   <span className="label-text">Client</span>
                 </label>
                 <select
+                  id="project-client"
                   className="select select-bordered w-full"
                   value={newProject.clientId}
                   onChange={(e) =>
@@ -357,10 +373,11 @@ export default function ProjectsPage() {
               </div>
 
               <div className="form-control mb-4">
-                <label className="label">
+                <label className="label" htmlFor="project-category">
                   <span className="label-text">Category (Optional)</span>
                 </label>
                 <input
+                  id="project-category"
                   type="text"
                   className="input input-bordered w-full"
                   value={newProject.category}
@@ -372,10 +389,11 @@ export default function ProjectsPage() {
               </div>
 
               <div className="form-control mb-4">
-                <label className="label">
+                <label className="label" htmlFor="project-rate">
                   <span className="label-text">Default Hourly Rate (£)</span>
                 </label>
                 <input
+                  id="project-rate"
                   type="number"
                   step="0.01"
                   min="0"
@@ -391,10 +409,11 @@ export default function ProjectsPage() {
               </div>
 
               <div className="form-control mb-4">
-                <label className="label">
+                <label className="label" htmlFor="project-colour">
                   <span className="label-text">Colour</span>
                 </label>
                 <input
+                  id="project-colour"
                   type="color"
                   className="input input-bordered w-full h-12"
                   value={newProject.colour}

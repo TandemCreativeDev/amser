@@ -34,7 +34,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         return {
-          id: (user._id as any).toString(),
+          id: user._id.toString(),
           email: user.email,
           name: user.name,
           image: user.image,
@@ -58,7 +58,7 @@ export const authOptions: NextAuthOptions = {
 
         const dbUser = await UserModel.findById(token.id);
         if (dbUser) {
-          session.user.id = (dbUser._id as any).toString();
+          session.user.id = dbUser._id.toString();
 
           const memberships = await OrganisationMemberModel.find({
             userId: dbUser._id,
@@ -67,7 +67,10 @@ export const authOptions: NextAuthOptions = {
             .lean();
 
           const organisations = memberships.map(
-            (membership: { organisationId: any; role: string }) => ({
+            (membership: {
+              organisationId: SessionOrganisation;
+              role: string;
+            }) => ({
               ...membership.organisationId,
               role: membership.role,
             }),
