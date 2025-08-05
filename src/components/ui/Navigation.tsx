@@ -64,7 +64,7 @@ export default function Navigation() {
           </ul>
         </div>
         <Link href="/" className="btn btn-ghost text-xl">
-          ClepSync
+          Amser
         </Link>
       </div>
 

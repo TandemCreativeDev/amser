@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ClepSync - Time Tracking Made Simple",
+  title: "Amser - Time Tracking Made Simple",
   description:
     "Professional time tracking application with advanced rate management and team collaboration",
 };

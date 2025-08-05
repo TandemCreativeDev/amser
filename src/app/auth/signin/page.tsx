@@ -44,7 +44,7 @@ export default function SignInPage() {
       <div className="card w-full max-w-md bg-base-200 shadow-xl">
         <div className="card-body">
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold">ClepSync</h1>
+            <h1 className="text-3xl font-bold">Amser</h1>
             <p className="text-base-content/70 mt-2">Sign in to your account</p>
           </div>
 

@@ -1,25 +1,29 @@
-# ClepSync - Time Tracking Application
+# Amser - Time Tracking Application
 
 A sophisticated time tracking application built as a Toggl clone with advanced rate management features. Supports both personal and organisational time tracking with team collaboration capabilities.
 
 ## Features Implemented ✅
 
 ### Core Authentication & User Management
+
 - ✅ NextAuth.js integration with Google OAuth
 - ✅ User registration/login with session management
 - ✅ Protected routes and authentication guards
 
 ### Database & Models
+
 - ✅ MongoDB integration with Mongoose ODM
 - ✅ Complete database schemas (User, Organisation, Client, Project, TimeEntry, RateRule)
 - ✅ Multi-tenant organisation system support
 
 ### State Management
+
 - ✅ Zustand stores for timer state and app state
 - ✅ Persistent timer state across browser sessions
 - ✅ Organisation context switching
 
 ### Time Tracking
+
 - ✅ Live timer with real-time updates
 - ✅ Project and client assignment
 - ✅ Persistent timer state
@@ -27,17 +31,20 @@ A sophisticated time tracking application built as a Toggl clone with advanced r
 - ✅ Automatic rate calculation
 
 ### Project & Client Management
+
 - ✅ Client CRUD operations with colour coding
 - ✅ Project management with categories and rates
 - ✅ Organisation-scoped resource management
 
 ### Dashboard & Analytics
+
 - ✅ Real-time dashboard with statistics
 - ✅ Recent activity tracking
 - ✅ Earnings calculations
 - ✅ Active project overview
 
 ### UI/UX
+
 - ✅ Responsive design with Tailwind CSS v4
 - ✅ DaisyUI components with custom dark theme
 - ✅ British English throughout
@@ -63,6 +70,7 @@ A sophisticated time tracking application built as a Toggl clone with advanced r
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+ and npm
 - MongoDB database (local or cloud)
 - Google OAuth credentials
@@ -70,18 +78,21 @@ A sophisticated time tracking application built as a Toggl clone with advanced r
 ### Installation
 
 1. Clone the repository and install dependencies
+
 ```bash
 npm install
 ```
 
 2. Set up environment variables
+
 ```bash
 cp .env.example .env.local
 ```
 
 Edit `.env.local` with your configuration:
+
 ```env
-MONGODB_URI=mongodb://localhost:27017/clepsync
+MONGODB_URI=mongodb://localhost:27017/
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your-nextauth-secret-key-here
 GOOGLE_CLIENT_ID=your-google-client-id
@@ -89,6 +100,7 @@ GOOGLE_CLIENT_SECRET=your-google-client-secret
 ```
 
 3. Start the development server
+
 ```bash
 npm run dev
 ```
@@ -107,12 +119,14 @@ npm run dev
 ## Usage
 
 ### For Personal Use
+
 1. Sign in with Google
 2. Create clients and projects
 3. Start tracking time with the timer
 4. View dashboard for analytics
 
 ### For Teams (Coming Soon)
+
 1. Create or join an organisation
 2. Switch between personal and organisation context
 3. Collaborate on shared projects

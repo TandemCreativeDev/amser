@@ -429,7 +429,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="label">
                   <span className="label-text-alt">
-                    Use this key to access the ClepSync API
+                    Use this key to access the Amser API
                   </span>
                 </div>
               </div>
