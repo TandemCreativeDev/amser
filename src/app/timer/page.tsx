@@ -267,22 +267,24 @@ export default function TimerPage() {
                     )}
                   </div>
                   <div className="dropdown dropdown-end">
-                    <div
+                    <button
+                      type="button"
                       tabIndex={0}
-                      role="button"
                       className="btn btn-ghost btn-sm"
                     >
                       ⋮
-                    </div>
+                    </button>
                     <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                       <li>
-                        <a>Edit</a>
+                        <button type="button">Edit</button>
                       </li>
                       <li>
-                        <a>Duplicate</a>
+                        <button type="button">Duplicate</button>
                       </li>
                       <li>
-                        <a className="text-error">Delete</a>
+                        <button type="button" className="text-error">
+                          Delete
+                        </button>
                       </li>
                     </ul>
                   </div>

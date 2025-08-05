@@ -17,24 +17,28 @@ export default function SettingsPage() {
       {/* Tabs */}
       <div className="tabs tabs-bordered mb-6">
         <button
+          type="button"
           className={`tab ${activeTab === "profile" ? "tab-active" : ""}`}
           onClick={() => setActiveTab("profile")}
         >
           Profile
         </button>
         <button
+          type="button"
           className={`tab ${activeTab === "preferences" ? "tab-active" : ""}`}
           onClick={() => setActiveTab("preferences")}
         >
           Preferences
         </button>
         <button
+          type="button"
           className={`tab ${activeTab === "rates" ? "tab-active" : ""}`}
           onClick={() => setActiveTab("rates")}
         >
           Rate Rules
         </button>
         <button
+          type="button"
           className={`tab ${activeTab === "integrations" ? "tab-active" : ""}`}
           onClick={() => setActiveTab("integrations")}
         >
@@ -56,7 +60,7 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 <div>
-                  <button className="btn btn-outline btn-sm">
+                  <button type="button" className="btn btn-outline btn-sm">
                     Change Avatar
                   </button>
                   <p className="text-sm text-base-content/70 mt-1">
@@ -67,10 +71,11 @@ export default function SettingsPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="form-control">
-                  <label className="label">
+                  <label className="label" htmlFor="fullName">
                     <span className="label-text">Full Name</span>
                   </label>
                   <input
+                    id="fullName"
                     type="text"
                     className="input input-bordered"
                     defaultValue="John Doe"
@@ -78,10 +83,11 @@ export default function SettingsPage() {
                 </div>
 
                 <div className="form-control">
-                  <label className="label">
+                  <label className="label" htmlFor="email">
                     <span className="label-text">Email</span>
                   </label>
                   <input
+                    id="email"
                     type="email"
                     className="input input-bordered"
                     defaultValue="john@example.com"
@@ -89,10 +95,10 @@ export default function SettingsPage() {
                 </div>
 
                 <div className="form-control">
-                  <label className="label">
+                  <label className="label" htmlFor="timezone">
                     <span className="label-text">Timezone</span>
                   </label>
-                  <select className="select select-bordered">
+                  <select id="timezone" className="select select-bordered">
                     <option>UTC</option>
                     <option selected>Europe/London</option>
                     <option>America/New_York</option>
@@ -101,12 +107,13 @@ export default function SettingsPage() {
                 </div>
 
                 <div className="form-control">
-                  <label className="label">
+                  <label className="label" htmlFor="defaultRate">
                     <span className="label-text">Default Rate</span>
                   </label>
                   <div className="input-group">
                     <span>£</span>
                     <input
+                      id="defaultRate"
                       type="number"
                       className="input input-bordered flex-1"
                       defaultValue="75"
@@ -117,7 +124,9 @@ export default function SettingsPage() {
               </div>
 
               <div className="card-actions justify-end mt-6">
-                <button className="btn btn-primary">Save Changes</button>
+                <button type="button" className="btn btn-primary">
+                  Save Changes
+                </button>
               </div>
             </div>
           </div>
@@ -196,7 +205,9 @@ export default function SettingsPage() {
               </div>
 
               <div className="card-actions justify-end mt-6">
-                <button className="btn btn-primary">Save Preferences</button>
+                <button type="button" className="btn btn-primary">
+                  Save Preferences
+                </button>
               </div>
             </div>
           </div>
@@ -213,7 +224,9 @@ export default function SettingsPage() {
                 Set up conditional billing rules based on weekly hours
               </p>
             </div>
-            <button className="btn btn-primary">Create Rule</button>
+            <button type="button" className="btn btn-primary">
+              Create Rule
+            </button>
           </div>
 
           <div className="card bg-base-200">
@@ -255,8 +268,13 @@ export default function SettingsPage() {
               </div>
 
               <div className="card-actions justify-end mt-4">
-                <button className="btn btn-outline btn-sm">Edit</button>
-                <button className="btn btn-error btn-outline btn-sm">
+                <button type="button" className="btn btn-outline btn-sm">
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-error btn-outline btn-sm"
+                >
                   Delete
                 </button>
               </div>
@@ -298,8 +316,13 @@ export default function SettingsPage() {
               </div>
 
               <div className="card-actions justify-end mt-4">
-                <button className="btn btn-outline btn-sm">Edit</button>
-                <button className="btn btn-error btn-outline btn-sm">
+                <button type="button" className="btn btn-outline btn-sm">
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-error btn-outline btn-sm"
+                >
                   Delete
                 </button>
               </div>
@@ -325,7 +348,7 @@ export default function SettingsPage() {
                           Sync commits and issues
                         </p>
                       </div>
-                      <button className="btn btn-outline btn-sm">
+                      <button type="button" className="btn btn-outline btn-sm">
                         Connect
                       </button>
                     </div>
@@ -341,7 +364,7 @@ export default function SettingsPage() {
                           Time tracking notifications
                         </p>
                       </div>
-                      <button className="btn btn-primary btn-sm">
+                      <button type="button" className="btn btn-primary btn-sm">
                         Connected
                       </button>
                     </div>
@@ -357,7 +380,7 @@ export default function SettingsPage() {
                           Track time on cards
                         </p>
                       </div>
-                      <button className="btn btn-outline btn-sm">
+                      <button type="button" className="btn btn-outline btn-sm">
                         Connect
                       </button>
                     </div>
@@ -375,7 +398,7 @@ export default function SettingsPage() {
                           Sync meetings and events
                         </p>
                       </div>
-                      <button className="btn btn-outline btn-sm">
+                      <button type="button" className="btn btn-outline btn-sm">
                         Connect
                       </button>
                     </div>
@@ -390,26 +413,31 @@ export default function SettingsPage() {
               <h2 className="card-title">API Access</h2>
 
               <div className="form-control">
-                <label className="label">
+                <label className="label" htmlFor="apiKey">
                   <span className="label-text">API Key</span>
                 </label>
                 <div className="input-group">
                   <input
+                    id="apiKey"
                     type="password"
                     className="input input-bordered flex-1"
                     defaultValue="sk_live_1234567890abcdef"
                   />
-                  <button className="btn btn-outline">Regenerate</button>
+                  <button type="button" className="btn btn-outline">
+                    Regenerate
+                  </button>
                 </div>
-                <label className="label">
+                <div className="label">
                   <span className="label-text-alt">
                     Use this key to access the ClepSync API
                   </span>
-                </label>
+                </div>
               </div>
 
               <div className="card-actions justify-end">
-                <button className="btn btn-outline">View Documentation</button>
+                <button type="button" className="btn btn-outline">
+                  View Documentation
+                </button>
               </div>
             </div>
           </div>
