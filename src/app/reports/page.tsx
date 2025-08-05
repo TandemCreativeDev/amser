@@ -1,10 +1,96 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+
+interface ReportsData {
+  summary: {
+    totalDuration: number;
+    formattedTotalTime: string;
+    billableTime: string;
+    totalEarnings: number;
+    avgRate: number;
+    entryCount: number;
+  };
+  breakdown: Array<{
+    id: string;
+    name: string;
+    colour: string | null;
+    duration: number;
+    formattedDuration: string;
+    earnings: number;
+    avgRate: number;
+    entryCount: number;
+    percentage: number;
+  }>;
+  dateRange: {
+    start: string;
+    end: string;
+    range: string;
+  };
+  groupBy: string;
+}
 
 export default function ReportsPage() {
+  const { data: session } = useSession();
   const [dateRange, setDateRange] = useState("week");
   const [selectedProject, setSelectedProject] = useState("all");
+  const [selectedClient, setSelectedClient] = useState("all");
+  const [groupBy, setGroupBy] = useState("project");
+  const [reportsData, setReportsData] = useState<ReportsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchReports = async () => {
+    if (!session?.user) return;
+    
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const params = new URLSearchParams({
+        dateRange,
+        groupBy,
+      });
+      
+      if (selectedProject !== "all") {
+        params.append("projectId", selectedProject);
+      }
+      
+      if (selectedClient !== "all") {
+        params.append("clientId", selectedClient);
+      }
+      
+      const response = await fetch(`/api/reports?${params}`);
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch reports");
+      }
+      
+      const data = await response.json();
+      setReportsData(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (session?.user) {
+      fetchReports();
+    }
+  }, [session, dateRange, selectedProject, selectedClient, groupBy]);
+
+  if (!session?.user) {
+    return (
+      <div className="p-6">
+        <div className="text-center">
+          <p>Please sign in to view reports.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6">
@@ -47,9 +133,6 @@ export default function ReportsPage() {
                 onChange={(e) => setSelectedProject(e.target.value)}
               >
                 <option value="all">All Projects</option>
-                <option value="1">Website Redesign</option>
-                <option value="2">Mobile App</option>
-                <option value="3">API Integration</option>
               </select>
             </div>
 
@@ -57,11 +140,13 @@ export default function ReportsPage() {
               <label className="label" htmlFor="client">
                 <span className="label-text">Client</span>
               </label>
-              <select id="client" className="select select-bordered">
-                <option>All Clients</option>
-                <option>Acme Corp</option>
-                <option>TechStart</option>
-                <option>DevCorp</option>
+              <select 
+                id="client" 
+                className="select select-bordered"
+                value={selectedClient}
+                onChange={(e) => setSelectedClient(e.target.value)}
+              >
+                <option value="all">All Clients</option>
               </select>
             </div>
 
@@ -75,27 +160,41 @@ export default function ReportsPage() {
       </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="stat bg-base-200">
-          <div className="stat-title">Total Time</div>
-          <div className="stat-value text-primary">42h 35m</div>
+      {loading && (
+        <div className="flex justify-center items-center py-8">
+          <span className="loading loading-spinner loading-lg"></span>
         </div>
+      )}
+      
+      {error && (
+        <div className="alert alert-error mb-6">
+          <span>{error}</span>
+        </div>
+      )}
+      
+      {reportsData && (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="stat bg-base-200">
+            <div className="stat-title">Total Time</div>
+            <div className="stat-value text-primary">{reportsData.summary.formattedTotalTime}</div>
+          </div>
 
-        <div className="stat bg-base-200">
-          <div className="stat-title">Billable Time</div>
-          <div className="stat-value text-secondary">38h 20m</div>
-        </div>
+          <div className="stat bg-base-200">
+            <div className="stat-title">Billable Time</div>
+            <div className="stat-value text-secondary">{reportsData.summary.billableTime}</div>
+          </div>
 
-        <div className="stat bg-base-200">
-          <div className="stat-title">Total Earnings</div>
-          <div className="stat-value text-accent">£3,215</div>
-        </div>
+          <div className="stat bg-base-200">
+            <div className="stat-title">Total Earnings</div>
+            <div className="stat-value text-accent">£{reportsData.summary.totalEarnings.toFixed(2)}</div>
+          </div>
 
-        <div className="stat bg-base-200">
-          <div className="stat-title">Average Rate</div>
-          <div className="stat-value">£84/hr</div>
+          <div className="stat bg-base-200">
+            <div className="stat-title">Average Rate</div>
+            <div className="stat-value">£{reportsData.summary.avgRate}/hr</div>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Detailed Report Table */}
       <div className="card bg-base-200">
@@ -103,13 +202,25 @@ export default function ReportsPage() {
           <div className="flex justify-between items-center mb-4">
             <h2 className="card-title">Time Breakdown</h2>
             <div className="join">
-              <button type="button" className="btn btn-sm join-item btn-active">
+              <button 
+                type="button" 
+                className={`btn btn-sm join-item ${groupBy === 'project' ? 'btn-active' : ''}`}
+                onClick={() => setGroupBy('project')}
+              >
                 By Project
               </button>
-              <button type="button" className="btn btn-sm join-item">
+              <button 
+                type="button" 
+                className={`btn btn-sm join-item ${groupBy === 'client' ? 'btn-active' : ''}`}
+                onClick={() => setGroupBy('client')}
+              >
                 By Client
               </button>
-              <button type="button" className="btn btn-sm join-item">
+              <button 
+                type="button" 
+                className={`btn btn-sm join-item ${groupBy === 'day' ? 'btn-active' : ''}`}
+                onClick={() => setGroupBy('day')}
+              >
                 By Day
               </button>
             </div>
@@ -119,8 +230,7 @@ export default function ReportsPage() {
             <table className="table">
               <thead>
                 <tr>
-                  <th>Project</th>
-                  <th>Client</th>
+                  <th>{groupBy === 'day' ? 'Date' : groupBy === 'client' ? 'Client' : 'Project'}</th>
                   <th>Time</th>
                   <th>Rate</th>
                   <th>Earnings</th>
@@ -128,65 +238,38 @@ export default function ReportsPage() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 bg-primary rounded-full"></div>
-                      <span className="font-medium">Website Redesign</span>
-                    </div>
-                  </td>
-                  <td>Acme Corp</td>
-                  <td className="font-mono">22h 30m</td>
-                  <td>£75/hr</td>
-                  <td className="font-medium">£1,687.50</td>
-                  <td>
-                    <progress
-                      className="progress progress-primary w-20"
-                      value="75"
-                      max="100"
-                    ></progress>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 bg-secondary rounded-full"></div>
-                      <span className="font-medium">Mobile App</span>
-                    </div>
-                  </td>
-                  <td>TechStart</td>
-                  <td className="font-mono">12h 15m</td>
-                  <td>£90/hr</td>
-                  <td className="font-medium">£1,102.50</td>
-                  <td>
-                    <progress
-                      className="progress progress-secondary w-20"
-                      value="45"
-                      max="100"
-                    ></progress>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 bg-accent rounded-full"></div>
-                      <span className="font-medium">API Integration</span>
-                    </div>
-                  </td>
-                  <td>DevCorp</td>
-                  <td className="font-mono">7h 50m</td>
-                  <td>£65/hr</td>
-                  <td className="font-medium">£510.00</td>
-                  <td>
-                    <progress
-                      className="progress progress-accent w-20"
-                      value="30"
-                      max="100"
-                    ></progress>
-                  </td>
-                </tr>
+                {reportsData?.breakdown.map((item, index) => {
+                  const colourClass = item.colour ? `bg-[${item.colour}]` : `bg-primary`;
+                  const progressClass = index % 3 === 0 ? 'progress-primary' : 
+                                       index % 3 === 1 ? 'progress-secondary' : 'progress-accent';
+                  
+                  return (
+                    <tr key={item.id}>
+                      <td>
+                        <div className="flex items-center gap-3">
+                          <div className={`w-3 h-3 ${colourClass} rounded-full`}></div>
+                          <span className="font-medium">{item.name}</span>
+                        </div>
+                      </td>
+                      <td className="font-mono">{item.formattedDuration}</td>
+                      <td>£{item.avgRate}/hr</td>
+                      <td className="font-medium">£{item.earnings.toFixed(2)}</td>
+                      <td>
+                        <progress
+                          className={`progress ${progressClass} w-20`}
+                          value={item.percentage}
+                          max="100"
+                        ></progress>
+                      </td>
+                    </tr>
+                  );
+                }) || (
+                  <tr>
+                    <td colSpan={5} className="text-center py-8">
+                      {loading ? "Loading..." : "No data available"}
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -200,7 +283,7 @@ export default function ReportsPage() {
           <div className="h-64 bg-base-100 rounded-lg flex items-center justify-center">
             <div className="text-center text-base-content/50">
               <div className="text-4xl mb-2">📊</div>
-              <p>Chart visualization will go here</p>
+              <p>Chart visualisation will go here</p>
               <p className="text-sm">(Integrate with Chart.js or similar)</p>
             </div>
           </div>
