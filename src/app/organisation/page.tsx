@@ -17,21 +17,23 @@ export default function OrganisationPage() {
           </div>
 
           <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="btn btn-primary">
+            <button type="button" className="btn btn-primary">
               Switch Organisation
-            </div>
+            </button>
             <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
               <li>
-                <a className="font-medium">Personal Workspace</a>
+                <button type="button" className="font-medium">
+                  Personal Workspace
+                </button>
               </li>
               <li>
-                <a>
+                <button type="button">
                   Acme Corp{" "}
                   <span className="badge badge-primary badge-sm">Current</span>
-                </a>
+                </button>
               </li>
               <li>
-                <a>TechStart Ltd</a>
+                <button type="button">TechStart Ltd</button>
               </li>
               <li className="menu-title">
                 <button className="btn btn-ghost btn-sm w-full">
@@ -50,6 +52,7 @@ export default function OrganisationPage() {
           fill="none"
           viewBox="0 0 24 24"
           className="stroke-current shrink-0 w-6 h-6"
+          aria-label="Information icon"
         >
           <path
             strokeLinecap="round"
@@ -70,24 +73,28 @@ export default function OrganisationPage() {
       {/* Tabs */}
       <div className="tabs tabs-bordered mb-6">
         <button
+          type="button"
           className={`tab ${activeTab === "overview" ? "tab-active" : ""}`}
           onClick={() => setActiveTab("overview")}
         >
           Overview
         </button>
         <button
+          type="button"
           className={`tab ${activeTab === "members" ? "tab-active" : ""}`}
           onClick={() => setActiveTab("members")}
         >
           Team Members
         </button>
         <button
+          type="button"
           className={`tab ${activeTab === "projects" ? "tab-active" : ""}`}
           onClick={() => setActiveTab("projects")}
         >
           Shared Projects
         </button>
         <button
+          type="button"
           className={`tab ${activeTab === "settings" ? "tab-active" : ""}`}
           onClick={() => setActiveTab("settings")}
         >
@@ -193,7 +200,9 @@ export default function OrganisationPage() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-bold">Team Members</h2>
-            <button className="btn btn-primary">Invite Member</button>
+            <button type="button" className="btn btn-primary">
+              Invite Member
+            </button>
           </div>
 
           <div className="card bg-base-200">
@@ -233,19 +242,20 @@ export default function OrganisationPage() {
                       <td className="font-mono">18h 30m</td>
                       <td>
                         <div className="dropdown dropdown-end">
-                          <div
-                            tabIndex={0}
-                            role="button"
+                          <button
+                            type="button"
                             className="btn btn-ghost btn-sm"
                           >
                             ⋮
-                          </div>
+                          </button>
                           <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow">
                             <li>
-                              <a>Change Role</a>
+                              <button type="button">Change Role</button>
                             </li>
                             <li>
-                              <a className="text-error">Remove</a>
+                              <button type="button" className="text-error">
+                                Remove
+                              </button>
                             </li>
                           </ul>
                         </div>
@@ -275,19 +285,20 @@ export default function OrganisationPage() {
                       <td className="font-mono">22h 15m</td>
                       <td>
                         <div className="dropdown dropdown-end">
-                          <div
-                            tabIndex={0}
-                            role="button"
+                          <button
+                            type="button"
                             className="btn btn-ghost btn-sm"
                           >
                             ⋮
-                          </div>
+                          </button>
                           <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow">
                             <li>
-                              <a>Change Role</a>
+                              <button type="button">Change Role</button>
                             </li>
                             <li>
-                              <a className="text-error">Remove</a>
+                              <button type="button" className="text-error">
+                                Remove
+                              </button>
                             </li>
                           </ul>
                         </div>
@@ -306,7 +317,9 @@ export default function OrganisationPage() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-bold">Shared Projects</h2>
-            <button className="btn btn-primary">Create Project</button>
+            <button type="button" className="btn btn-primary">
+              Create Project
+            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -318,19 +331,15 @@ export default function OrganisationPage() {
                     <h3 className="card-title text-base">Website Redesign</h3>
                   </div>
                   <div className="dropdown dropdown-end">
-                    <div
-                      tabIndex={0}
-                      role="button"
-                      className="btn btn-ghost btn-xs"
-                    >
+                    <button type="button" className="btn btn-ghost btn-xs">
                       ⋮
-                    </div>
+                    </button>
                     <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-32 p-2 shadow">
                       <li>
-                        <a>Edit</a>
+                        <button type="button">Edit</button>
                       </li>
                       <li>
-                        <a>Archive</a>
+                        <button type="button">Archive</button>
                       </li>
                     </ul>
                   </div>
@@ -360,19 +369,15 @@ export default function OrganisationPage() {
                     <h3 className="card-title text-base">API Development</h3>
                   </div>
                   <div className="dropdown dropdown-end">
-                    <div
-                      tabIndex={0}
-                      role="button"
-                      className="btn btn-ghost btn-xs"
-                    >
+                    <button type="button" className="btn btn-ghost btn-xs">
                       ⋮
-                    </div>
+                    </button>
                     <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-32 p-2 shadow">
                       <li>
-                        <a>Edit</a>
+                        <button type="button">Edit</button>
                       </li>
                       <li>
-                        <a>Archive</a>
+                        <button type="button">Archive</button>
                       </li>
                     </ul>
                   </div>
@@ -448,7 +453,9 @@ export default function OrganisationPage() {
               </div>
 
               <div className="card-actions justify-end">
-                <button className="btn btn-primary">Save Changes</button>
+                <button type="button" className="btn btn-primary">
+                  Save Changes
+                </button>
               </div>
             </div>
           </div>

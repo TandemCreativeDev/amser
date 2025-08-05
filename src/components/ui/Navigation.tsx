@@ -32,12 +32,13 @@ export default function Navigation() {
     <div className="navbar bg-base-200">
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <button type="button" className="btn btn-ghost lg:hidden">
             <svg
               className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-label="Menu"
             >
               <path
                 strokeLinecap="round"
@@ -46,7 +47,7 @@ export default function Navigation() {
                 d="M4 6h16M4 12h8m-8 6h16"
               />
             </svg>
-          </div>
+          </button>
           <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
             {navItems.map((item) => (
               <li key={item.href}>
@@ -86,11 +87,7 @@ export default function Navigation() {
         {session?.user?.organisations &&
           session.user.organisations.length > 0 && (
             <div className="dropdown dropdown-end mr-4">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-outline btn-sm"
-              >
+              <button type="button" className="btn btn-outline btn-sm">
                 {viewMode === "organisation" && currentOrganisation
                   ? currentOrganisation.name
                   : "Personal"}
@@ -99,6 +96,7 @@ export default function Navigation() {
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  aria-label="Dropdown arrow"
                 >
                   <path
                     strokeLinecap="round"
@@ -107,10 +105,11 @@ export default function Navigation() {
                     d="M19 9l-7 7-7-7"
                   />
                 </svg>
-              </div>
+              </button>
               <ul className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]">
                 <li>
                   <button
+                    type="button"
                     onClick={() => setCurrentOrganisation(null)}
                     className={viewMode === "personal" ? "active" : ""}
                   >
@@ -120,6 +119,7 @@ export default function Navigation() {
                 {session.user.organisations.map((org) => (
                   <li key={org._id}>
                     <button
+                      type="button"
                       onClick={() => setCurrentOrganisation(org)}
                       className={
                         currentOrganisation?._id === org._id ? "active" : ""
@@ -136,11 +136,7 @@ export default function Navigation() {
 
         {session?.user ? (
           <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
+            <button type="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 {session.user.image ? (
                   <Image
@@ -157,7 +153,7 @@ export default function Navigation() {
                   </div>
                 )}
               </div>
-            </div>
+            </button>
             <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li>
                 <Link href="/settings" className="justify-between">
@@ -166,7 +162,9 @@ export default function Navigation() {
                 </Link>
               </li>
               <li>
-                <button onClick={() => signOut()}>Logout</button>
+                <button type="button" onClick={() => signOut()}>
+                  Logout
+                </button>
               </li>
             </ul>
           </div>

@@ -1,5 +1,3 @@
-import mongoose from "mongoose";
-
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
@@ -33,13 +31,13 @@ async function dbConnect() {
       bufferCommands: false,
     };
 
-    cached!.promise = mongoose.connect(MONGODB_URI!, opts);
+    cached.promise = mongoose.connect(MONGODB_URI, opts);
   }
 
   try {
-    cached!.conn = await cached!.promise;
+    cached.conn = await cached.promise;
   } catch (e) {
-    cached!.promise = null;
+    cached.promise = null;
     throw e;
   }
 

@@ -5,14 +5,14 @@ import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 import { useAppStore } from "@/lib/stores/app";
 import { useTimerStore } from "@/lib/stores/timer";
-import { TimeEntry, Project, Client } from "@/types";
+import type { Client, Project, TimeEntry } from "@/types";
 
-interface PopulatedTimeEntry extends Omit<TimeEntry, 'clientId' | 'projectId'> {
+interface PopulatedTimeEntry extends Omit<TimeEntry, "clientId" | "projectId"> {
   clientId?: Client;
   projectId?: Project;
 }
 
-interface PopulatedProject extends Omit<Project, 'clientId'> {
+interface PopulatedProject extends Omit<Project, "clientId"> {
   clientId?: Client;
 }
 
