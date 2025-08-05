@@ -273,7 +273,7 @@ export default function DashboardPage() {
                   </Link>
                 </div>
               ) : (
-                activeProjects.map((project, _index) => (
+                activeProjects.map((project) => (
                   <div
                     key={project._id}
                     className="flex justify-between items-center"

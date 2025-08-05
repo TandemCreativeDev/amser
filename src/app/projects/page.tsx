@@ -11,10 +11,10 @@ export default function ProjectsPage() {
 
   const [clients, setClients] = useState<Client[]>([]);
   const [projects, setProjects] = useState<ProjectWithClient[]>([]);
-  const [_view, _setView] = useState("projects");
+  // const [view, setView] = useState("projects");
   const [showClientModal, setShowClientModal] = useState(false);
   const [showProjectModal, setShowProjectModal] = useState(false);
-  const [_selectedClient, _setSelectedClient] = useState<Client | null>(null);
+  // const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [newClient, setNewClient] = useState({ name: "", colour: "#3B82F6" });
   const [newProject, setNewProject] = useState({
     name: "",

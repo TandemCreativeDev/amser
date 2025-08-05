@@ -42,7 +42,7 @@ export default function SignUpPage() {
       } else {
         setError(data.error || "Registration failed");
       }
-    } catch (_error) {
+    } catch {
       setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);

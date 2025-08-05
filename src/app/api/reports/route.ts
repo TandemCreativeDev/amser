@@ -61,9 +61,9 @@ export async function GET(request: NextRequest) {
     const groupBy = searchParams.get("groupBy") || "project";
     const isPersonal = !organisationId;
 
-    const { start, end } = getDateRange(dateRange, customStart, customEnd);
+    const { start, end } = getDateRange(dateRange, customStart || undefined, customEnd || undefined);
 
-    const baseQuery: any = {
+    const baseQuery: Record<string, unknown> = {
       userId: session.user.id,
       isPersonal,
       startTime: { $gte: start, $lte: end },
@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
     const totalEarnings = summary.totalEarnings / 3600; // Convert from per-second to per-hour
 
     // Get breakdown by grouping
-    let groupField: string;
+    let groupField: string | Record<string, unknown>;
     let populateFields: string;
 
     switch (groupBy) {
@@ -128,7 +128,7 @@ export async function GET(request: NextRequest) {
           entryCount: { $sum: 1 },
         },
       },
-      { $sort: { totalDuration: -1 } },
+      { $sort: { totalDuration: -1 as const } },
     ];
 
     let breakdownResult = await TimeEntryModel.aggregate(breakdownPipeline);

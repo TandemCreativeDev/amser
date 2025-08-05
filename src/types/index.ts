@@ -113,11 +113,11 @@ export interface UserSession extends User {
 }
 
 // Populated types for frontend use
-export interface ProjectWithClient extends Project {
+export interface ProjectWithClient extends Omit<Project, 'clientId'> {
   clientId: Client;
 }
 
-export interface TimeEntryWithDetails extends TimeEntry {
+export interface TimeEntryWithDetails extends Omit<TimeEntry, 'projectId' | 'clientId'> {
   projectId: Project;
   clientId: Client;
 }

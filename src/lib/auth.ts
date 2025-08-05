@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import type { Organisation } from "@/types";
 import OrganisationMemberModel from "./models/OrganisationMember";
 import UserModel from "./models/User";
 import dbConnect from "./mongodb";
@@ -34,7 +35,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         return {
-          id: user._id.toString(),
+          id: user._id?.toString() || "",
           email: user.email,
           name: user.name,
           image: user.image,
@@ -58,7 +59,7 @@ export const authOptions: NextAuthOptions = {
 
         const dbUser = await UserModel.findById(token.id);
         if (dbUser) {
-          session.user.id = dbUser._id.toString();
+          session.user.id = dbUser._id?.toString() || "";
 
           const memberships = await OrganisationMemberModel.find({
             userId: dbUser._id,
@@ -66,15 +67,13 @@ export const authOptions: NextAuthOptions = {
             .populate("organisationId")
             .lean();
 
-          const organisations = memberships.map(
-            (membership: {
-              organisationId: SessionOrganisation;
-              role: string;
-            }) => ({
-              ...membership.organisationId,
+          const organisations = memberships.map((membership) => {
+            const org = membership.organisationId as unknown as Organisation;
+            return {
+              ...org,
               role: membership.role,
-            }),
-          ) as SessionOrganisation[];
+            };
+          }) as SessionOrganisation[];
 
           session.user.organisations = organisations;
           session.user.settings = dbUser.settings;

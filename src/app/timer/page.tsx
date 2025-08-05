@@ -88,13 +88,13 @@ export default function TimerPage() {
     return `${minutes}m`;
   };
 
-  const formatTimeRange = (startTime: string, endTime: string) => {
-    const start = new Date(startTime).toLocaleTimeString("en-GB", {
+  const formatTimeRange = (startTime: Date, endTime: Date) => {
+    const start = startTime.toLocaleTimeString("en-GB", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,
     });
-    const end = new Date(endTime).toLocaleTimeString("en-GB", {
+    const end = endTime.toLocaleTimeString("en-GB", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,

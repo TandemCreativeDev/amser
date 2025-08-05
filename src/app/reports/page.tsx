@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 
 interface ReportsData {
@@ -41,7 +41,7 @@ export default function ReportsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchReports = async () => {
+  const fetchReports = useCallback(async () => {
     if (!session?.user) return;
     
     setLoading(true);
@@ -74,13 +74,13 @@ export default function ReportsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [session?.user, dateRange, groupBy, selectedProject, selectedClient]);
 
   useEffect(() => {
     if (session?.user) {
       fetchReports();
     }
-  }, [session, dateRange, selectedProject, selectedClient, groupBy]);
+  }, [session, fetchReports]);
 
   if (!session?.user) {
     return (
